@@ -68,8 +68,52 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
                     'default' => ''
                 )
             ),
-            'render_callback' => array( __CLASS__, 'groups_member')
+            'render_callback' => array( __CLASS__, 'groups_member_block')
         ) );
+    }
+        public static function groups_member_block( $atts, $content = null ) {
+        $output = '';
+        $defaults = array(
+            'group'  => 'Registered',
+            'content'     => ''
+        );
+
+        $options = shortcode_atts( $defaults, $atts );
+        $show_content = false;
+         if ( strlen( $options['content'] ) > 0 && strlen( $content ) === 0 ) {
+            $content = $options['content'];
+        }
+        if ( $content !== null ) {
+            $groups_user = new Groups_User( get_current_user_id() );
+            $groups = explode( ',', $options['group'] );
+            foreach ( $groups as $group ) {
+                $group = trim( $group );
+                $current_group = Groups_Group::read( $group );
+                if ( !$current_group ) {
+                    $current_group = Groups_Group::read_by_name( $group );
+                }
+                if ( $current_group ) {
+                    if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+                        $show_content = true;
+                        break;
+                    }
+                }
+            }
+            if ( $show_content ) {
+                remove_shortcode( 'groups_member' );
+                $content = do_shortcode( $content );
+                add_shortcode( 'groups_member', array( __CLASS__, 'groups_member' ) );
+                $output = $content;
+            }
+        }
+        if (
+            strlen( $output ) === 0 &&
+            is_user_logged_in() &&
+            defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_REQUEST['context'] ) && $_REQUEST['context'] === 'edit'
+        ) {
+            $output .= '<div style="display:none"></div>';
+        }
+        return $output;
     }
 }
 
