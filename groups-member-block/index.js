@@ -4,11 +4,7 @@
 	 * @see https://github.com/WordPress/gutenberg/tree/master/blocks#api
 	 */
 	var registerBlockType = wp.blocks.registerBlockType;
-	/**
-	 * Returns a new element of given type. Element is an abstraction layer atop React.
-	 * @see https://github.com/WordPress/gutenberg/tree/master/element#element
-	 */
-	var el = wp.element.createElement;
+
 	/**
 	 * Retrieves the translation of text.
 	 * @see https://github.com/WordPress/gutenberg/tree/master/i18n#api
