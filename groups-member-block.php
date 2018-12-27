@@ -52,5 +52,3 @@ function gmb_plugins_loaded() {
 	if ( class_exists( 'Groups_Access_Shortcodes' ) ) {
 		require_once 'class-groups-member-block.php';}
 ;}
-
-Groups_Member_Block::init();
