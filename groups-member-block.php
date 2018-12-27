@@ -46,13 +46,11 @@
 	exit;
 }
 
-<<<<<<< HEAD
 add_action( 'plugins_loaded', 'gmb_plugins_loaded' );
 
 function gmb_plugins_loaded() {
 	if ( class_exists( 'Groups_Access_Shortcodes' ) ) {
 		require_once 'class-groups-member-block.php';}
 ;}
-=======
+
 Groups_Member_Block::init();
->>>>>>> 457352e82631dab0123a92215a02d58ecced46e4
