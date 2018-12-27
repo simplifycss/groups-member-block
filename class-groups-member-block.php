@@ -68,10 +68,11 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
                     'default' => ''
                 )
             ),
-            'render_callback' => array( __CLASS__, 'groups_member_block')
+            'render_callback' => array( __CLASS__, 'block')
         ) );
     }
-        public static function groups_member_block( $atts, $content = null ) {
+
+ public static function block( $atts, $content = '' ) {
         $output = '';
         $defaults = array(
             'group'  => 'Registered',
@@ -79,6 +80,7 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
         );
 
         $options = shortcode_atts( $defaults, $atts );
+        
         $show_content = false;
          if ( strlen( $options['content'] ) > 0 && strlen( $content ) === 0 ) {
             $content = $options['content'];
@@ -115,6 +117,7 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
         }
         return $output;
     }
+    
 }
 
 Groups_Member_Block::init();

@@ -1,7 +1,5 @@
 <?php
 /**
-<<<<<<< HEAD
-=======
  *
  * @link              https://author.url
  * @since             1.0.0
@@ -23,7 +21,6 @@
 /**
  * Functions to register client-side assets (scripts and stylesheets) for the
  * Gutenberg block.
->>>>>>> 457352e82631dab0123a92215a02d58ecced46e4
  *
  * @link              https://author.url
  * @since             1.0.0
