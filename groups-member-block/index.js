@@ -65,6 +65,30 @@
 					),
 					wp.element.createElement(
 							wp.editor.InspectorControls, {key: "inspector"},
+								
+								/* A SelectControl to display available Groups like the meta-box when editing a post.
+									wp.element.createElement(
+									wp.components.SelectControl,
+									{
+										// Enable multiple-choice options.
+										multiple,
+										label :  __( 'Read' ),
+										// Type of group should be array?
+										value : group,
+										onChange : function( value ) {
+											props.setAttributes( {
+												group : value
+											} );
+										},
+										// Options retireved with the Groups_UIE::render_select?
+										options : [
+													{value: , label: },
+													{value: , label: }
+
+										]
+
+									}
+								)*/
 							wp.element.createElement(
 									wp.components.TextControl,
 									{
@@ -116,3 +140,4 @@
 } )(
 	window.wp
 );
+
