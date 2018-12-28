@@ -72,7 +72,7 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
         ) );
     }
 
- public static function block( $atts, $content = '' ) {
+ public static function block( $atts, $content = null ) {
         $output = '';
         $defaults = array(
             'group'  => 'Registered',
@@ -80,12 +80,11 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
         );
 
         $options = shortcode_atts( $defaults, $atts );
-        
         $show_content = false;
+
          if ( strlen( $options['content'] ) > 0 && strlen( $content ) === 0 ) {
             $content = $options['content'];
-        }
-        if ( $content !== null ) {
+        
             $groups_user = new Groups_User( get_current_user_id() );
             $groups = explode( ',', $options['group'] );
             foreach ( $groups as $group ) {
