@@ -106,6 +106,49 @@ class Groups_Member_Block extends Groups_Access_Shortcodes {
                 add_shortcode( 'groups_member', array( __CLASS__, 'groups_member' ) );
                 $output = $content;
             }
+             if ( $content !== null ) {
+            $groups_user = new Groups_User( get_current_user_id() );
+            $groups = explode( ',', $options['group'] );
+            foreach ( $groups as $group ) {
+                $group = trim( $group );
+                $current_group = Groups_Group::read( $group );
+                if ( !$current_group ) {
+                    $current_group = Groups_Group::read_by_name( $group );
+                }
+                if ( $current_group ) {
+                    if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+                        $show_content = true;
+                        break;
+                    }
+                }
+            }
+            if ( $show_content ) {
+                remove_shortcode( 'groups_member' );
+                $content = do_shortcode( $content );
+                add_shortcode( 'groups_member', array( __CLASS__, 'groups_member' ) );
+                $output = $content;
+                
+            }
+        }
+                    // Get the options of the SelectControl?
+                    $user    = new Groups_User( get_current_user_id() );
+					$include = Groups_Access_Meta_Boxes::get_user_can_restrict_group_ids( get_current_user_id() );
+					$groups  = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+
+					$output .= '<div class="groups-groups-container">';
+					$output .= sprintf(
+						'<select class="select bulk-group" name="%s[]" multiple="multiple" placeholder="%s" data-placeholder="%s">',
+						esc_attr( Groups_Post_Access::POSTMETA_PREFIX . 'bulk-' . Groups_Post_Access::READ ),
+						esc_attr( __( 'Choose access restriction groups &hellip;', 'groups' ) ) ,
+						esc_attr( __( 'Choose access restriction groups &hellip;', 'groups' ) )
+					);
+
+					foreach( $groups as $group ) {
+						$output .= sprintf( '<option value="%s" >%s</option>', esc_attr( $group->group_id ), wp_filter_nohtml_kses( $group->name ) );
+					}
+					$output .= '</select>';
+					$output .= '</div>'; // .groups-groups-container
+					$output .= Groups_UIE::render_select( '.select.bulk-group' );
         }
         if (
             strlen( $output ) === 0 &&
